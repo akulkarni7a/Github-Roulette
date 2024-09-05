@@ -5,6 +5,7 @@ import os
 # GitHub API configuration
 GITHUB_API_URL = "https://api.github.com/search/repositories"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+print(f"Token: {GITHUB_TOKEN}")  # Debug print
 
 headers = {
     "Authorization": f"token {GITHUB_TOKEN}",
