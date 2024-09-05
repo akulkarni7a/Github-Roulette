@@ -2,10 +2,26 @@ import requests
 import random
 import os
 
+def read_token_from_env_file():
+    try:
+        with open('.env', 'r') as f:
+            for line in f:
+                if line.startswith('GITHUB_TOKEN='):
+                    return line.split('=')[1].strip()
+    except FileNotFoundError:
+        print("'.env' file not found. Please create it with your GitHub token.")
+    except Exception as e:
+        print(f"An error occurred while reading the '.env' file: {e}")
+    return None
+
 # GitHub API configuration
 GITHUB_API_URL = "https://api.github.com/search/repositories"
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-print(f"Token: {GITHUB_TOKEN}")  # Debug print
+GITHUB_TOKEN = read_token_from_env_file()
+
+if not GITHUB_TOKEN:
+    raise ValueError("GitHub token not found. Please check your '.env' file.")
+
+print(f"Token found: {'Yes' if GITHUB_TOKEN else 'No'}")  # Debug print (doesn't reveal the token)
 
 headers = {
     "Authorization": f"token {GITHUB_TOKEN}",
